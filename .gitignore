@@ -1,0 +1,50 @@
+# Node
+node_modules/
+npm-debug.log
+yarn-error.log
+yarn-debug.log
+.pnpm-debug.log
+
+# Ambiente
+.env
+.env.local
+.env.*.local
+
+# Logs
+logs/
+*.log
+
+# Sistema
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Builds
+dist/
+build/
+
+# Cache
+.cache/
+.tmp/
+temp/
+
+# Oracle
+*.dbf
+*.log
+*.ora
+
+# Uploads (se usar arquivos locais no futuro)
+/uploads/
+/temp_uploads/
+
+# Testes
+coverage/
+test-results/
