@@ -1,8 +1,10 @@
-// src/server.js
 const express = require('express');
 const { port } = require('../app/config/env.js');
 const routes = require('./interfaces/http/routes/index');
 const { createPool } = require('./infrastructure/database/pool');
+const cors = require('cors');
+
+app.use(cors());
 
 const app = express();
 

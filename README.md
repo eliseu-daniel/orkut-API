@@ -93,8 +93,8 @@ PORT=3000
 ORACLE_HOST=localhost
 ORACLE_PORT=1521
 ORACLE_DATABASE=XE
-ORACLE_USER=ELISEU
-ORACLE_PASSWORD=oracle
+ORACLE_USER=sys
+ORACLE_PASSWORD=masterkey
 ```
 
 4. Inicie o Oracle (XE ou seu container)

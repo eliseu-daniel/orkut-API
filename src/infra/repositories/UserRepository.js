@@ -34,6 +34,23 @@ class UserRepository {
         }
     }
 
+    async findByApelido(apelido) {
+        const connection = await pool.getConnection();
+        try {
+            const sql = `SELECT USU_ID, USU_APELIDO FROM USUARIO WHERE USU_APELIDO = :apelido`;
+            const result = await connection.execute(sql, [apelido]);
+            if (result.rows.length === 0) return null;
+
+            const row = result.rows[0];
+            return {
+                id: row[0],
+                apelido: row[1],
+            };
+        } finally {
+            if (connection) await connection.close();
+        }
+    }
+
     #mapRowToUser(row) {
         return {
             id: row[0],
