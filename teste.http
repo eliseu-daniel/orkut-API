@@ -1,0 +1,21 @@
+POST http://localhost:3000/api/register
+Content-Type: application/json
+{
+    "nome": "Eliseu Silva",
+    "apelido": "Eliseu",
+    "dataNasc": "1995-05-15",
+    "genero": "Masculino",
+    "status": "AT"
+}
+
+###
+POST http://localhost:3000/api/login
+Content-Type: application/json
+Authorization: Bearer {jasonwebtoken}
+{
+    "apelido": "Eliseu"
+}
+
+
+###
+GET http://localhost:3000/api
