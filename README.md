@@ -78,12 +78,12 @@ src/
 
 ### 1. Clone o repositório
 ```bash
-git clone <seu-repo>
-cd <projeto>
+git clone https://github.com/eliseu-daniel/orkut-API.git
+cd orkut-API
 ```
 2. Instale as dependências
 ```bash
-npm install
+pnpm install
 ```
 
 3. Configure o .env
@@ -101,6 +101,6 @@ ORACLE_PASSWORD=masterkey
 
 5. Execute o projeto
 ```bash
-npm run dev
+pnpm run dev
 ```
 API disponível em: http://localhost:3000/api

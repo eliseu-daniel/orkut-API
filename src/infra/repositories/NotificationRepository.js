@@ -1,4 +1,5 @@
 const pool = require('../database/pool');
+const { realtime } = require('../../server');
 
 class NotificationRepository {
     async create(notif) {
@@ -16,6 +17,17 @@ class NotificationRepository {
                 status: notif.status
             };
             const result = await connection.execute(sql, binds, { autoCommit: true });
+
+            // === NOTIFICAR USUÁRIO EM TEMPO REAL ===
+            realtime.sendToUser(notif.usuId, {
+                type: 'nova_notificacao',
+                data: {
+                    id: notif.id,
+                    tipo: notif.tipo,
+                    mensagem: `Nova ${notif.tipo.toLowerCase()}`
+                }
+            });
+
             return { inserted: result.rowsAffected };
         } finally {
             if (connection) await connection.close();
