@@ -1,5 +1,5 @@
 const CreateComment = require('../../../app/comments/createComment');
-const CommentRepository = require('../../../infrastructure/repositories/CommentRepository');
+const CommentRepository = require('../../../infra/repositories/CommentRepository');
 
 const createComment = new CreateComment(CommentRepository);
 

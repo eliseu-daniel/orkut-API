@@ -1,6 +1,6 @@
 const CreateUser = require('../../../app/users/createUser');
 const GetUser = require('../../../app/users/getUser');
-const UserRepository = require('../../../infrastructure/repositories/UserRepository');
+const UserRepository = require('../../../infra/repositories/UserRepository');
 
 const createUser = new CreateUser(UserRepository);
 const getUser = new GetUser(UserRepository);

@@ -1,5 +1,5 @@
 const CreateNotification = require('../../../app/notifications/createNotification');
-const NotificationRepository = require('../../../infrastructure/repositories/NotificationRepository');
+const NotificationRepository = require('../../../infra/repositories/NotificationRepository');
 
 const createNotification = new CreateNotification(NotificationRepository);
 

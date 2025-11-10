@@ -1,5 +1,5 @@
 const LinkPublicationToAction = require('../../../app/actionPublication/linkPublicationToAction');
-const ActionPublicationRepository = require('../../../infrastructure/repositories/ActionPublicationRepository');
+const ActionPublicationRepository = require('../../../infra/repositories/ActionPublicationRepository');
 
 const linkPublicationToAction = new LinkPublicationToAction(ActionPublicationRepository);
 

@@ -1,15 +1,19 @@
+require('dotenv').config({
+  path: `.env.${process.env.NODE_ENV || 'development'}`,
+  override: true
+});
+
 const express = require('express');
 const { port } = require('../app/config/env.js');
-const routes = require('./interfaces/http/routes/index');
-const { createPool } = require('./infrastructure/database/pool');
+const routes = require('./interfaces/https/routes/index');
+const { createPool } = require('./infra/database/pool');
 const cors = require('cors');
-const RealtimeServer = require('./infrastructure/websocket/WebSocketServer');
-
-app.use(cors());
+const RealtimeServer = require('./infra/websocket/WebSocketServer');
 
 const app = express();
+const http = require('http');
 const server = http.createServer(app);
-
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -35,11 +39,13 @@ async function startServer() {
   }
 }
 
-startServer();
+if (require.main === module) {
+  startServer();
+}
 
 process.on('unhandledRejection', (err) => {
   console.error('Erro não tratado:', err);
   process.exit(1);
 });
 
-module.exports = { realtime };
+module.exports = { app, server, realtime, startServer };

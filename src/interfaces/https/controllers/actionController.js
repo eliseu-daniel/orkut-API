@@ -1,6 +1,6 @@
 const CreateAction = require('../../../app/actions/createAction');
 const GetAction = require('../../../app/actions/getAction');
-const ActionRepository = require('../../../infrastructure/repositories/ActionRepository');
+const ActionRepository = require('../../../infra/repositories/ActionRepository');
 const upload = require('../../../../app/config/multer').single('imagem');
 
 const createAction = new CreateAction(ActionRepository);

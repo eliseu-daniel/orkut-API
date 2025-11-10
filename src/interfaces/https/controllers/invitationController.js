@@ -1,5 +1,5 @@
 const SendInvitation = require('../../../app/invitations/sendInvitation');
-const InvitationRepository = require('../../../infrastructure/repositories/InvitationRepository');
+const InvitationRepository = require('../../../infra/repositories/InvitationRepository');
 
 const sendInvitation = new SendInvitation(InvitationRepository);
 

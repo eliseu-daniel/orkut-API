@@ -1,5 +1,5 @@
 const SendMessage = require('../../../app/messages/sendMessage');
-const MessageRepository = require('../../../infrastructure/repositories/MessageRepository');
+const MessageRepository = require('../../../infra/repositories/MessageRepository');
 
 const sendMessage = new SendMessage(MessageRepository);
 

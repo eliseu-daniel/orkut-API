@@ -1,21 +1,25 @@
 const oracledb = require('oracledb');
-const { dbConfig } = require('../../app/config/env');
+require('dotenv').config({
+    path: `.env.${process.env.NODE_ENV || 'development'}`,
+    override: true
+});
 
 let pool;
 
 async function createPool() {
-    if (!pool) {
-        pool = await oracledb.createPool({
-            user: dbConfig.user,
-            password: dbConfig.password,
-            connectString: `${dbConfig.host}:${dbConfig.port}/${dbConfig.database}`,
-            poolMin: 2,
-            poolMax: 10,
-            poolIncrement: 1
-        });
-        console.log('Pool Oracle criado com sucesso');
-    }
+    if (pool) return pool;
+
+    const config = {
+        user: process.env.ORACLE_USER,
+        password: process.env.ORACLE_PASSWORD,
+        connectString: `${process.env.ORACLE_HOST}:${process.env.ORACLE_PORT}/${process.env.ORACLE_DATABASE}`
+    };
+
+    console.log('Conectando com:', config.connectString);
+
+    pool = await oracledb.createPool(config);
+    console.log(`Pool Oracle (${process.env.NODE_ENV}) criado`);
     return pool;
 }
 
-module.exports = { getConnection: () => createPool().then(p => p.getConnection()) };
+module.exports = { createPool, getConnection: () => pool.getConnection() };

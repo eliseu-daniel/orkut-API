@@ -1,5 +1,5 @@
 const AddContact = require('../../../app/contacts/addContact');
-const ContactRepository = require('../../../infrastructure/repositories/ContactRepository');
+const ContactRepository = require('../../../infra/repositories/ContactRepository');
 
 const addContact = new AddContact(ContactRepository);
 

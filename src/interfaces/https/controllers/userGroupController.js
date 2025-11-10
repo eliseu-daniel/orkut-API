@@ -1,5 +1,5 @@
 const AddUserToGroup = require('../../../app/userGroup/addUserToGroup');
-const UserGroupRepository = require('../../../infrastructure/repositories/UserGroupRepository');
+const UserGroupRepository = require('../../../infra/repositories/UserGroupRepository');
 
 const addUserToGroup = new AddUserToGroup(UserGroupRepository);
 

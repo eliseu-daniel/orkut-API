@@ -1,6 +1,6 @@
 const CreateGroup = require('../../../app/groups/createGroup');
 const GetGroup = require('../../../app/groups/getGroup');
-const GroupRepository = require('../../../infrastructure/repositories/GroupRepository');
+const GroupRepository = require('../../../infra/repositories/GroupRepository');
 
 const createGroup = new CreateGroup(GroupRepository);
 const getGroup = new GetGroup(GroupRepository);

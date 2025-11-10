@@ -1,5 +1,5 @@
 const LogUserHistory = require('../../../app/userHistory/logUserHistory');
-const UserHistoryRepository = require('../../../infrastructure/repositories/UserHistoryRepository');
+const UserHistoryRepository = require('../../../infra/repositories/UserHistoryRepository');
 
 const logUserHistory = new LogUserHistory(UserHistoryRepository);
 

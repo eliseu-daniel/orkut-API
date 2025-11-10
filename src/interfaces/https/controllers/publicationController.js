@@ -1,5 +1,5 @@
 const CreatePublication = require('../../../app/publications/createPublication');
-const PublicationRepository = require('../../../infrastructure/repositories/PublicationRepository');
+const PublicationRepository = require('../../../infra/repositories/PublicationRepository');
 
 const createPublication = new CreatePublication(PublicationRepository);
 

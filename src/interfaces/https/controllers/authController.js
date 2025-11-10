@@ -1,5 +1,5 @@
 const Login = require('../../../app/auth/login');
-const UserRepository = require('../../../infrastructure/repositories/UserRepository');
+const UserRepository = require('../../../infra/repositories/UserRepository');
 
 const loginUseCase = new Login(UserRepository);
 

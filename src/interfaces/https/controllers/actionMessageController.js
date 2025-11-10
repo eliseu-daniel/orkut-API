@@ -1,5 +1,5 @@
 const LinkMessageToAction = require('../../../app/actionMessage/linkMessageToAction');
-const ActionMessageRepository = require('../../../infrastructure/repositories/ActionMessageRepository');
+const ActionMessageRepository = require('../../../infra/repositories/ActionMessageRepository');
 
 const linkMessageToAction = new LinkMessageToAction(ActionMessageRepository);
 
