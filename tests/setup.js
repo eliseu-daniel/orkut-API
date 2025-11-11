@@ -38,7 +38,7 @@ afterAll(async () => {
     if (oracledb.getPool()) await oracledb.getPool().close(10);
 
     try {
-        const pool = oracledb.getPool(); 
+        const pool = oracledb.getPool();
         if (pool) await pool.close(10);
     } catch (err) {
         if (err.message.includes('NJS-047')) {

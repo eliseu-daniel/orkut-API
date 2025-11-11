@@ -12,7 +12,7 @@ async function createPool() {
     const config = {
         user: process.env.ORACLE_USER,
         password: process.env.ORACLE_PASSWORD,
-        connectString: `${process.env.ORACLE_HOST}:${process.env.ORACLE_PORT}/${process.env.ORACLE_DATABASE}`
+        connectString: process.env.ORACLE_CONNECTION_STRING,
     };
 
     console.log('Conectando com:', config.connectString);

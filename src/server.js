@@ -1,8 +1,3 @@
-require('dotenv').config({
-  path: `.env.${process.env.NODE_ENV || 'development'}`,
-  override: true
-});
-
 const express = require('express');
 const { port } = require('../app/config/env.js');
 const routes = require('./interfaces/https/routes/index');
@@ -35,7 +30,12 @@ async function startServer() {
     });
   } catch (err) {
     console.error('Erro ao iniciar o servidor:', err);
-    process.exit(1);
+
+    if (process.env.NODE_ENV !== 'test') {
+      process.exit(1);
+    } else {
+      throw err;
+    }
   }
 }
 
