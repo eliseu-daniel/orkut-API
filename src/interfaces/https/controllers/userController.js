@@ -1,9 +1,11 @@
 const CreateUser = require('../../../app/users/createUser');
 const GetUser = require('../../../app/users/getUser');
+const GetAllUser = require('../../../app/users/getAllUser');
 const UserRepository = require('../../../infra/repositories/UserRepository');
 
 const createUser = new CreateUser(UserRepository);
 const getUser = new GetUser(UserRepository);
+const getAllUser = new GetAllUser(UserRepository);
 
 const createUserHandler = async (req, res) => {
     try {
@@ -23,4 +25,13 @@ const getUserHandler = async (req, res) => {
     }
 };
 
-module.exports = { createUser: createUserHandler, getUser: getUserHandler };
+const GetAllUserHandler = async (req, res) => {
+    try {
+        const result = await getAllUser.execute();
+        res.json(result);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+module.exports = { createUser: createUserHandler, getUser: getUserHandler, getAllUser: GetAllUserHandler };

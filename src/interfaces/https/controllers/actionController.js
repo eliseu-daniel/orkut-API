@@ -3,7 +3,7 @@ const GetAction = require('../../../app/actions/getAction');
 const ActionRepository = require('../../../infra/repositories/ActionRepository');
 const upload = require('../../../../app/config/multer').single('imagem');
 
-const createAction = new CreateAction(ActionRepository);
+const createAction = new CreateAction(ActionRepository); // injeção de dependência manual
 const getAction = new GetAction(ActionRepository);
 
 const createActionHandler = (req, res) => {
