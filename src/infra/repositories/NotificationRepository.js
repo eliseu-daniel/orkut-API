@@ -18,7 +18,6 @@ class NotificationRepository {
             };
             const result = await connection.execute(sql, binds, { autoCommit: true });
 
-            // === NOTIFICAR USUÁRIO EM TEMPO REAL ===
             realtime.sendToUser(notif.usuId, {
                 type: 'nova_notificacao',
                 data: {

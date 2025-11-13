@@ -39,13 +39,9 @@ async function startServer() {
   }
 }
 
-if (require.main === module) {
-  startServer();
-}
-
 process.on('unhandledRejection', (err) => {
   console.error('Erro não tratado:', err);
   process.exit(1);
 });
 
-module.exports = { app, server, realtime, startServer };
+module.exports = { startServer };

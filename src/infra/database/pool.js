@@ -1,8 +1,4 @@
 const oracledb = require('oracledb');
-require('dotenv').config({
-    path: `.env.${process.env.NODE_ENV || 'development'}`,
-    override: true
-});
 
 let pool;
 
@@ -12,7 +8,7 @@ async function createPool() {
     const config = {
         user: process.env.ORACLE_USER,
         password: process.env.ORACLE_PASSWORD,
-        connectString: process.env.ORACLE_CONNECTION_STRING,
+        connectString: process.env.ORACLE_CONNECT_STRING,
     };
 
     console.log('Conectando com:', config.connectString);

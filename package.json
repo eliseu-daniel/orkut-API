@@ -1,11 +1,11 @@
 {
-  "name": "orkutAPI",
+  "name": "orkut-api",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/server.js",
-    "dev": "nodemon src/server.js",
+    "start": "node --env-file=.env src/index.js",
+    "dev": "node --watch --env-file=.env src/index.js",
     "test": "NODE_ENV=test jest tests/e2e --runInBand --forceExit",
     "test:watch": "NODE_ENV=test jest tests/e2e --watch"
   },
@@ -21,9 +21,7 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "bcryptjs": "^3.0.2",
     "cors": "^2.8.5",
-    "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "multer": "^2.0.2",
@@ -32,7 +30,6 @@
   "devDependencies": {
     "@jest-mock/express": "^3.0.0",
     "jest": "^30.2.0",
-    "nodemon": "^3.0.0",
     "supertest": "^7.1.4",
     "ws": "^8.18.3"
   }

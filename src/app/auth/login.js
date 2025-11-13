@@ -1,12 +1,11 @@
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
 
 class Login {
     constructor(userRepository) {
         this.userRepository = userRepository;
     }
 
-    async execute(apelido, senha) {
+    async execute(apelido) {
         const user = await this.userRepository.findByApelido(apelido);
         if (!user) throw new Error('Credenciais inválidas');
 
