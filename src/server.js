@@ -1,24 +1,29 @@
 const express = require('express');
 const { port } = require('../app/config/env.js');
-const routes = require('./interfaces/https/routes/index');
 const { createPool } = require('./infra/database/pool');
 const cors = require('cors');
 const RealtimeServer = require('./infra/websocket/WebSocketServer');
+const createRoutes = require('./interfaces/https/routes/index');
+const CommentRepository = require('./infra/repositories/CommentRepository');
+const NotificationRepository = require('./infra/repositories/NotificationRepository');
 
 const app = express();
 const http = require('http');
 const server = http.createServer(app);
+const realtime = new RealtimeServer(server);
+const commentRepository = new CommentRepository(realtime);
+const notificationRepository = new NotificationRepository(realtime);
+
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+const routes = createRoutes(realtime);
 app.use('/api', routes);
 
 app.get('/health', (req, res) => {
   res.json({ status: 'OK', timestamp: new Date().toISOString() });
 });
-
-const realtime = new RealtimeServer(server);
 
 async function startServer() {
   try {

@@ -1,7 +1,22 @@
 const express = require('express');
-const router = express.Router();
 const { linkMessageToAction } = require('../controllers/actionMessageController');
 
-router.post('/', linkMessageToAction);
+module.exports = (realtime) => {
+    const router = express.Router();
 
-module.exports = router;
+    router.post('/', async (req, res, next) => {
+        try {
+            const result = await linkMessageToAction(req, res);
+
+            if (realtime && result?.message) {
+                realtime.emit('newActionMessage', result.message);
+            }
+
+            return res.status(200).json(result);
+        } catch (error) {
+            next(error);
+        }
+    });
+
+    return router;
+};

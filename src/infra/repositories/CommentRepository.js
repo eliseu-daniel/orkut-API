@@ -1,7 +1,10 @@
 const pool = require('../database/pool');
-const { realtime } = require('../../server');
 
 class CommentRepository {
+    constructor(realtime) {
+        this.realtime = realtime;
+    }
+
     async create(message) {
         const connection = await pool.getConnection();
         try {
@@ -34,4 +37,4 @@ class CommentRepository {
     }
 }
 
-module.exports = new CommentRepository();
+module.exports = CommentRepository;

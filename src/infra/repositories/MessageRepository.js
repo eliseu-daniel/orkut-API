@@ -5,11 +5,10 @@ class MessageRepository {
         const connection = await pool.getConnection();
         try {
             const sql = `
-        INSERT INTO MENSAGENS (MENS_ID, USU_ID, CONTATO_ID, MENS_DESCRICAO, MENS_STATUS, MENS_DATA)
-        VALUES (:id, :usuId, :contatoId, :descricao, :status, SYSTIMESTAMP)
+        INSERT INTO MENSAGENS (USU_ID, CONTATO_ID, MENS_DESCRICAO, MENS_STATUS, MENS_DATA)
+        VALUES (:usuId, :contatoId, :descricao, :status, SYSTIMESTAMP)
       `;
             const binds = {
-                id: message.id,
                 usuId: message.usuId,
                 contatoId: message.contatoId,
                 descricao: message.descricao,

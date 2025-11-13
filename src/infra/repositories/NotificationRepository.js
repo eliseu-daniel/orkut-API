@@ -1,7 +1,9 @@
 const pool = require('../database/pool');
-const { realtime } = require('../../server');
 
 class NotificationRepository {
+    constructor(realtime) {
+        this.realtime = realtime;
+    }
     async create(notif) {
         const connection = await pool.getConnection();
         try {
@@ -34,4 +36,4 @@ class NotificationRepository {
     }
 }
 
-module.exports = new NotificationRepository();
+module.exports = NotificationRepository;

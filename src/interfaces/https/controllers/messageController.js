@@ -1,27 +1,40 @@
 const SendMessage = require('../../../app/messages/sendMessage');
-const MessageRepository = require('../../../infra/repositories/MessageRepository');
 const GetMessage = require('../../../app/messages/getMessage');
+const MessageRepository = require('../../../infra/repositories/MessageRepository');
 
-const sendMessage = new SendMessage(MessageRepository);
-const getMessage = new GetMessage(MessageRepository);
+const sendMessageUseCase = new SendMessage(MessageRepository);
+const getMessageUseCase = new GetMessage(MessageRepository);
 
-const sendMessageHandler = async (req, res) => {
+const sendMessage = (realtime) => async (req, res) => {
     try {
-        const result = await sendMessage.execute(req.body);
-        res.status(201).json(result);
+        const result = await sendMessageUseCase.execute(req.body);
+
+        if (req.body.contatoId) {
+            realtime.sendToUser(req.body.contatoId, {
+                type: 'new_message',
+                from: req.body.usuId,
+                to: req.body.contatoId,
+                descricao: req.body.descricao,
+                data: new Date().toISOString(),
+            });
+        }
+
+        return res.status(201).json(result);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        console.error('Erro ao enviar mensagem:', error);
+        return res.status(400).json({ error: error.message });
     }
 };
 
-const getMessageHandler = async (req, res) => {
+const getMessage = async (req, res) => {
     try {
         const { usuId, contatoId } = req.params;
-        const messages = await getMessage.execute(usuId, contatoId);
-        res.status(200).json(messages);
+        const messages = await getMessageUseCase.execute(usuId, contatoId);
+        return res.status(200).json(messages);
     } catch (error) {
-        res.status(400).json({ error: error.message });
+        console.error('Erro ao buscar mensagens:', error);
+        return res.status(400).json({ error: error.message });
     }
 };
 
-module.exports = { sendMessage: sendMessageHandler, getMessage: getMessageHandler };
+module.exports = { sendMessage, getMessage };
