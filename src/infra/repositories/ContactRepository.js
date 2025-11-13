@@ -8,7 +8,7 @@ class ContactRepository {
         INSERT INTO CONTATOS (USU1_ID, CONTATO_ID, CON_TIPO)
         VALUES (:usu1Id, :contatoId, :tipo)
       `;
-            const binds = { usu1Id: contact.usu1Id, contatoId: contact.contatoId, tipo: contact.tipo };
+            const binds = { usu1Id: contact.usuId, contatoId: contact.contatoId, tipo: contact.tipo };
             const result = await connection.execute(sql, binds, { autoCommit: true });
             return { inserted: result.rowsAffected };
         } finally {

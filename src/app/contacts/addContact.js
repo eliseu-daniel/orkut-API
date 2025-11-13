@@ -4,11 +4,11 @@ class AddContact {
     }
 
     async execute(data) {
-        const { usu1Id, contatoId, tipo = 'AM' } = data;
+        const { usuId, contatoId, tipo = 'AM' } = data;
 
-        if (usu1Id === contatoId) throw new Error('Não pode adicionar a si mesmo');
+        if (usuId === contatoId) throw new Error('Não pode adicionar a si mesmo');
 
-        await this.contactRepository.create({ usu1Id, contatoId, tipo });
+        await this.contactRepository.create({ usuId, contatoId, tipo });
         return { message: 'Contato adicionado' };
     }
 }
