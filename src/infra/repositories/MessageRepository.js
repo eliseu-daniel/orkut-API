@@ -32,7 +32,8 @@ class MessageRepository {
         ORDER BY MENS_DATA ASC
       `;
             const binds = { usuId, contatoId };
-            const result = await connection.execute(sql, binds, { outFormat: pool.oracledb.OUT_FORMAT_OBJECT });
+            const oracledb = require('oracledb'); // requerindo aqui para evitar ciclo circular (gambiarra)
+            const result = await connection.execute(sql, binds, { outFormat: oracledb.OUT_FORMAT_OBJECT });
             return result.rows;
         } finally {
             if (connection) await connection.close();
