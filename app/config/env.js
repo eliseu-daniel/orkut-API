@@ -1,5 +1,6 @@
 module.exports = {
     port: process.env.PORT || 3000,
+    host: process.env.HOST,
     dbConfig: {
         user: process.env.ORACLE_USER,
         password: process.env.ORACLE_PASSWORD,

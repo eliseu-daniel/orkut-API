@@ -1,35 +1,38 @@
-const { WebSocketServer } = require('ws');
+const WebSocket = require('ws');
+const url = require('url');
 
 class RealtimeServer {
     constructor(server) {
-        this.wss = new WebSocketServer({ server });
-        this.clients = new Map(); // userId → ws
+        this.wss = new WebSocket.Server({ server });
+        this.clients = new Map();
 
         this.wss.on('connection', (ws, req) => {
-            const userId = this.extractUserId(req);
+            const parameters = url.parse(req.url, true);
+            const pathParts = parameters.pathname.split('/');
+            const userId = pathParts[pathParts.length - 1];
+
             if (userId) {
                 this.clients.set(userId, ws);
-                console.log(`User ${userId} conectado via WebSocket`);
+
+                ws.send(JSON.stringify({ type: 'connected', message: 'Conectado ao servidor em tempo real' }));
 
                 ws.on('close', () => {
                     this.clients.delete(userId);
-                    console.log(`User ${userId} desconectado`);
+                    console.log(`Usuário desconectado: ${userId}`);
                 });
+            } else {
+                console.warn('Conexão WebSocket sem ID de usuário.');
             }
-
-            ws.send(JSON.stringify({ type: 'connected', message: 'Conectado ao servidor em tempo real' }));
         });
     }
 
-    extractUserId(req) {
-        const url = new URL(req.url, `http://${req.headers.host}`);
-        return url.searchParams.get('userId');
-    }
-
-    sendToUser(userId, data) {
+    sendToUser(userId, message) {
         const ws = this.clients.get(userId);
-        if (ws && ws.readyState === ws.OPEN) {
-            ws.send(JSON.stringify(data));
+        if (ws && ws.readyState === WebSocket.OPEN) {
+            ws.send(JSON.stringify(message));
+
+        } else {
+            console.warn(`Usuário ${userId} não está conectado.`);
         }
     }
 }

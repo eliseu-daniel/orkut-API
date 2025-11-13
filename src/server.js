@@ -1,7 +1,8 @@
 const express = require('express');
-const { port } = require('../app/config/env.js');
+const { port, host } = require('../app/config/env.js');
 const { createPool } = require('./infra/database/pool');
 const cors = require('cors');
+const os = require('os');
 const RealtimeServer = require('./infra/websocket/WebSocketServer');
 const createRoutes = require('./interfaces/https/routes/index');
 const CommentRepository = require('./infra/repositories/CommentRepository');
@@ -28,10 +29,18 @@ app.get('/health', (req, res) => {
 async function startServer() {
   try {
     await createPool();
-    server.listen(port, () => {
-      console.log(`API rodando em http://localhost:${port}`);
-      console.log(`WebSocket: ws://localhost:${port}`);
-      console.log(`Health check: http://localhost:${port}/health`);
+    server.listen(port, host, () => {
+      const ifaces = os.networkInterfaces();
+      const localIPs = Object.values(ifaces)
+        .flat()
+        .filter((iface) => iface.family === 'IPv4' && !iface.internal)
+        .map((iface) => iface.address);
+
+      console.log(`API rodando em:`);
+      console.log(`   Local: http://localhost:${port}`);
+      localIPs.forEach((ip) => console.log(`   Rede:  http://${ip}:${port}`));
+      console.log(`WebSocket: ws://${host}:${port}`);
+      console.log(`Health check: http://${host}:${port}/health`);
     });
   } catch (err) {
     console.error('Erro ao iniciar o servidor:', err);
