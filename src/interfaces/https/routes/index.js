@@ -6,6 +6,7 @@ module.exports = (realtime) => {
 
     router.use('/auth', require('./auth.routes'));
     router.use('/register', require('./createLogin'));
+    router.use('/logout', require('./logout.routes'));
 
     router.use('/users', auth, require('./userRoutes'));
     router.use('/actions', auth, require('./actionRoutes'));
