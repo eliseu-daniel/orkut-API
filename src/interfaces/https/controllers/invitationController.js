@@ -1,7 +1,9 @@
 const SendInvitation = require('../../../app/invitations/sendInvitation');
 const InvitationRepository = require('../../../infra/repositories/InvitationRepository');
+const GetInvitations = require('../../../app/invitations/getInvitation');
 
 const sendInvitation = new SendInvitation(InvitationRepository);
+const getInvitations = new GetInvitations(InvitationRepository);
 
 const sendInvitationHandler = async (req, res) => {
     try {
@@ -12,4 +14,13 @@ const sendInvitationHandler = async (req, res) => {
     }
 };
 
-module.exports = { sendInvitation: sendInvitationHandler };
+const getInvitationsHandler = async (req, res) => {
+    try {
+        const invitations = await getInvitations.execute();
+        res.status(200).json(invitations);
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+};
+
+module.exports = { sendInvitation: sendInvitationHandler, getInvitations: getInvitationsHandler };

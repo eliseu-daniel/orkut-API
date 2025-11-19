@@ -21,6 +21,17 @@ class InvitationRepository {
             if (connection) await connection.close();
         }
     }
+
+    async getAll() {
+        const connection = await pool.getConnection();
+        try {
+            const sql = `SELECT * FROM CONVITES`;
+            const result = await connection.execute(sql);
+            return result.rows;
+        } finally {
+            if (connection) await connection.close();
+        }
+    }
 }
 
 module.exports = new InvitationRepository();

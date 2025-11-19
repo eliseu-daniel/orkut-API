@@ -35,6 +35,18 @@ class CommentRepository {
             if (connection) await connection.close();
         }
     }
+
+    async getAll() {
+        const connection = await pool.getConnection();
+        try {
+            const sql = `SELECT MENS_ID AS id, USU_ID AS usuId, CONTATO_ID AS contatoId, 
+                MENS_DESCRICAO AS descricao, MENS_STATUS AS status, MENS_DATA AS data FROM MENSAGENS`;
+            const result = await connection.execute(sql, {}, { outFormat: pool.OBJECT });
+            return result.rows;
+        } finally {
+            if (connection) await connection.close();
+        }
+    }
 }
 
 module.exports = CommentRepository;

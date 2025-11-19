@@ -3,5 +3,6 @@ const router = express.Router();
 const { sendInvitation } = require('../controllers/invitationController');
 
 router.post('/', sendInvitation);
+router.get('/', getInvitations);
 
 module.exports = router;
