@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { sendInvitation } = require('../controllers/invitationController');
+const { sendInvitation, getInvitations } = require('../controllers/invitationController');
 
 router.post('/', sendInvitation);
 router.get('/', getInvitations);
