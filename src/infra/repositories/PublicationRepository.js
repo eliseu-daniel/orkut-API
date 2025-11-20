@@ -25,7 +25,7 @@ class PublicationRepository {
         ORDER BY PUB_DATA DESC
       `;
             const result = await connection.execute(sql);
-            return result.rows;
+            return result.rows.map(row => this.#mapRowToPublication(row));
         } finally {
             if (connection) await connection.close();
         }
@@ -46,6 +46,16 @@ class PublicationRepository {
         } finally {
             if (connection) await connection.close();
         }
+    }
+
+    #mapRowToPublication(row) {
+        return {
+            id: row[0],
+            usuId: row[1],
+            texto: row[2],
+            data: row[3],
+            status: row[4],
+        };
     }
 }
 
