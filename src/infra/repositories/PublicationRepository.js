@@ -10,7 +10,7 @@ class PublicationRepository {
       `;
             const binds = { id: pub.id, usuId: pub.usuId, texto: pub.texto, status: pub.status };
             const result = await connection.execute(sql, binds, { autoCommit: true });
-            return { inserted: result.rowsAffected };
+            return { inserted: result.rows.map(row => this.#mapRowToPublication(row)) };
         } finally {
             if (connection) await connection.close();
         }
@@ -42,7 +42,7 @@ class PublicationRepository {
       `;
             const binds = { usuId };
             const result = await connection.execute(sql, binds);
-            return result.rows;
+            return result.rows.map(row => this.#mapRowToPublication(row));
         } finally {
             if (connection) await connection.close();
         }

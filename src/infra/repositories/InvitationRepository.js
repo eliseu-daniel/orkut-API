@@ -16,7 +16,7 @@ class InvitationRepository {
                 destId: invitation.destId
             };
             const result = await connection.execute(sql, binds, { autoCommit: true });
-            return { inserted: result.rowsAffected };
+            return { inserted: result.row };
         } finally {
             if (connection) await connection.close();
         }
@@ -27,10 +27,21 @@ class InvitationRepository {
         try {
             const sql = `SELECT * FROM CONVITES`;
             const result = await connection.execute(sql);
-            return result.rows;
+            return result.rows.map(row => this.#mapRow(row));
         } finally {
             if (connection) await connection.close();
         }
+    }
+
+    #mapRow(row) {
+        return {
+            id: row[0],
+            usuId: row[1],
+            texto: row[2],
+            tipo: row[3],
+            destId: row[4],
+            data: row[5]
+        };
     }
 }
 

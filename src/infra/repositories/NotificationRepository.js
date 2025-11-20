@@ -29,7 +29,7 @@ class NotificationRepository {
                 }
             });
 
-            return { inserted: result.rowsAffected };
+            return { inserted: result.rows };
         } finally {
             if (connection) await connection.close();
         }

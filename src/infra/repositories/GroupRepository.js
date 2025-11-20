@@ -10,7 +10,7 @@ class GroupRepository {
       `;
             const binds = { id: group.id, nome: group.nome, descricao: group.descricao, status: group.status };
             const result = await connection.execute(sql, binds, { autoCommit: true });
-            return { inserted: result.rowsAffected };
+            return { inserted: result.rows.map(row => this.#mapRow(row)) };
         } finally {
             if (connection) await connection.close();
         }

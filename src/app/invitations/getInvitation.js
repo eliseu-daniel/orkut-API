@@ -3,7 +3,7 @@ class GetInvitations {
         this.invitationRepository = invitationRepository;
     }
 
-    async execute() {
+    async getAll() {
         const invitations = await this.invitationRepository.getAll();
         return invitations;
     }

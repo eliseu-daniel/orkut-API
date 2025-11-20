@@ -10,10 +10,19 @@ class ActionMessageRepository {
       `;
             const binds = { acId: data.acId, mensId: data.mensId, amId: data.amId };
             const result = await connection.execute(sql, binds, { autoCommit: true });
-            return { inserted: result.rowsAffected };
+            return { inserted: result.rows.map(row => this.#mapToModel(row)) };
         } finally {
             if (connection) await connection.close();
         }
+    }
+
+    #mapToModel(row) {
+        return {
+            acId: row.AC_ID,
+            mensId: row.MENS_ID,
+            amData: row.AM_DATA,
+            amId: row.AM_ID,
+        };
     }
 }
 

@@ -10,10 +10,20 @@ class ActionPublicationRepository {
       `;
             const binds = { usuId: data.usuId, acId: data.acId, pubId: data.pubId, apId: data.apId };
             const result = await connection.execute(sql, binds, { autoCommit: true });
-            return { inserted: result.rowsAffected };
+            return { inserted: result.rows.map(row => this.#mapToModel(row)) };
         } finally {
             if (connection) await connection.close();
         }
+    }
+
+    #mapToModel(row) {
+        return {
+            usuId: row.USU_ID,
+            acId: row.AC_ID,
+            apData: row.AP_DATA,
+            pubId: row.PUB_ID,
+            apId: row.AP_ID,
+        };
     }
 }
 

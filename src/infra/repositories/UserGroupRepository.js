@@ -10,7 +10,7 @@ class UserGroupRepository {
       `;
             const binds = { status: data.status, usuId: data.usuId, gruId: data.gruId };
             const result = await connection.execute(sql, binds, { autoCommit: true });
-            return { inserted: result.rowsAffected };
+            return { inserted: result.rows };
         } finally {
             if (connection) await connection.close();
         }

@@ -10,10 +10,18 @@ class ContactRepository {
       `;
             const binds = { usu1Id: contact.usuId, contatoId: contact.contatoId, tipo: contact.tipo };
             const result = await connection.execute(sql, binds, { autoCommit: true });
-            return { inserted: result.rowsAffected };
+            return { inserted: result.rows.map(row => this.#mapToModel(row)) };
         } finally {
             if (connection) await connection.close();
         }
+    }
+
+    #mapToModel(row) {
+        return {
+            usu1Id: row.USU1_ID,
+            contatoId: row.CONTATO_ID,
+            tipo: row.CON_TIPO,
+        };
     }
 }
 

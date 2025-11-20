@@ -17,7 +17,7 @@ class UserRepository {
                 status: user.status
             };
             const result = await connection.execute(sql, binds, { autoCommit: true });
-            return { inserted: result.rowsAffected };
+            return { inserted: result.rows };
         } finally {
             if (connection) await connection.close();
         }
@@ -53,10 +53,7 @@ class UserRepository {
             if (result.rows.length === 0) return null;
 
             const row = result.rows[0];
-            return {
-                id: row[0],
-                apelido: row[1],
-            };
+            return result.rows.map(row => this.#mapRowToUser(row))[0];
         } finally {
             if (connection) await connection.close();
         }

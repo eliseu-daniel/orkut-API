@@ -16,7 +16,7 @@ const createCommentHandler = async (req, res) => {
 
 const getCommentsHandler = async (req, res) => {
     try {
-        const comments = await getComments.getAllComments();
+        const comments = await getComments.getAll();
         res.status(200).json(comments);
     } catch (error) {
         res.status(400).json({ error: error.message });

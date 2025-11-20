@@ -30,7 +30,7 @@ class CommentRepository {
                 }
             });
 
-            return { inserted: result.rowsAffected };
+            return { inserted: result.rows.map(row => this.#rowToModel(row)) };
         } finally {
             if (connection) await connection.close();
         }
@@ -42,10 +42,21 @@ class CommentRepository {
             const sql = `SELECT MENS_ID AS id, USU_ID AS usuId, CONTATO_ID AS contatoId, 
                 MENS_DESCRICAO AS descricao, MENS_STATUS AS status, MENS_DATA AS data FROM MENSAGENS`;
             const result = await connection.execute(sql, {}, { outFormat: pool.OBJECT });
-            return result.rows;
+            return result.rows.map(row => this.#rowToModel(row));
         } finally {
             if (connection) await connection.close();
         }
+    }
+
+    #rowToModel(row) {
+        return {
+            id: row.ID,
+            usuId: row.USU_ID,
+            contatoId: row.CONTATO_ID,
+            descricao: row.DESCRICAO,
+            status: row.STATUS,
+            data: row.DATA
+        };
     }
 }
 

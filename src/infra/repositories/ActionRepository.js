@@ -17,7 +17,7 @@ class ActionRepository {
             };
 
             const result = await connection.execute(sql, binds, { autoCommit: true });
-            return { inserted: result.rowsAffected };
+            return { inserted: result.rows.map(row => this.#mapToModel(row)) };
         } catch (err) {
             throw new Error('Erro ao criar ação: ' + err.message);
         } finally {
@@ -49,6 +49,14 @@ class ActionRepository {
         } finally {
             if (connection) await connection.close();
         }
+    }
+
+    #mapToModel(row) {
+        return {
+            id: row.AC_ID,
+            descricao: row.AC_DESCRICAO,
+            imagem: row.AC_IMAGEM,
+        };
     }
 }
 
