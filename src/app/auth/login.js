@@ -15,7 +15,7 @@ class Login {
             { expiresIn: process.env.JWT_EXPIRES_IN }
         );
 
-        return { token, user: { id: user.id, apelido: user.apelido } };
+        return { token, user: { id: user.id, apelido: user.apelido, nome: user.nome } };
     }
 }
 

@@ -48,15 +48,27 @@ class UserRepository {
     async findByApelido(apelido) {
         const connection = await pool.getConnection();
         try {
-            const sql = `SELECT USU_ID, USU_APELIDO FROM USUARIO WHERE USU_APELIDO = :apelido`;
+            const sql = `SELECT USU_ID, USU_NOME, USU_APELIDO FROM USUARIO WHERE USU_APELIDO = :apelido`;
             const result = await connection.execute(sql, [apelido]);
             if (result.rows.length === 0) return null;
-
             const row = result.rows[0];
-            return result.rows.map(row => this.#mapRowToUser(row))[0];
+
+            return {
+                id: row[0],
+                apelido: row[1],
+                nome: row[2]
+            };
+
         } finally {
             if (connection) await connection.close();
         }
+    }
+
+    #mapRowLogin(row) {
+        return {
+            id: row[0],
+            apelido: row[1]
+        };
     }
 
     #mapRowToUser(row) {
