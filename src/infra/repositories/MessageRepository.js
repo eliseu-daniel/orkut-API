@@ -38,6 +38,50 @@ class MessageRepository {
             if (connection) await connection.close();
         }
     }
+
+    async findAll() {
+        const connection = await pool.getConnection();
+        try {
+            const sql = `
+            SELECT 
+                MENS_ID AS id,
+                USU_ID AS usuId,
+                CONTATO_ID AS contatoId,
+                MENS_DESCRICAO AS descricao,
+                MENS_STATUS AS status,
+                MENS_DATA AS data
+            FROM MENSAGENS
+            ORDER BY CONTATO_ID ASC, MENS_DATA DESC
+        `;
+
+            const oracledb = require('oracledb');
+            const result = await connection.execute(
+                sql,
+                {},
+                { outFormat: oracledb.OUT_FORMAT_OBJECT }
+            );
+
+            const mensagens = result.rows;
+
+            // AGRUPAR POR contatoId
+            const agrupado = mensagens.reduce((acc, msg) => {
+                if (!acc[msg.CONTATOID]) {
+                    acc[msg.CONTATOID] = {
+                        contatoId: msg.CONTATOID,
+                        mensagens: []
+                    };
+                }
+                acc[msg.CONTATOID].mensagens.push(msg);
+                return acc;
+            }, {});
+
+            return Object.values(agrupado);
+
+        } finally {
+            if (connection) await connection.close();
+        }
+    }
+
 }
 
 module.exports = new MessageRepository();

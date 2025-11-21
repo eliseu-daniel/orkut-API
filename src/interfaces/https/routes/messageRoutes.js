@@ -1,5 +1,5 @@
 const express = require('express');
-const { sendMessage, getMessage } = require('../controllers/messageController');
+const { sendMessage, getMessage, getAllMessages } = require('../controllers/messageController');
 
 module.exports = (realtime) => {
     const router = express.Router();
@@ -7,6 +7,7 @@ module.exports = (realtime) => {
     router.post('/', sendMessage(realtime));
 
     router.get('/:usuId/:contatoId', getMessage);
+    router.get('/', getAllMessages);
 
     return router;
 };
