@@ -20,9 +20,17 @@ class PublicationRepository {
         const connection = await pool.getConnection();
         try {
             const sql = `
-        SELECT PUB_ID AS id, USU_ID AS usuId, PUB_TEXTO AS texto, PUB_DATA AS data, PUB_STATUS AS status
-        FROM PUBLICACOES
-        ORDER BY PUB_DATA DESC
+                SELECT 
+                P.PUB_ID         AS id, 
+                P.USU_ID         AS usuId, 
+                P.PUB_TEXTO      AS texto, 
+                P.PUB_DATA       AS data, 
+                P.PUB_STATUS     AS status,
+                U.USU_NOME       AS nome
+                FROM PUBLICACOES P
+                INNER JOIN USUARIO U 
+                    ON P.USU_ID = U.USU_ID
+                ORDER BY P.PUB_DATA DESC
       `;
             const result = await connection.execute(sql);
             return result.rows.map(row => this.#mapRowToPublication(row));
@@ -55,6 +63,7 @@ class PublicationRepository {
             texto: row[2],
             data: row[3],
             status: row[4],
+            nome: row[5]
         };
     }
 }
