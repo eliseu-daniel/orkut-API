@@ -16,7 +16,7 @@ const sendInvitationHandler = async (req, res) => {
 
 const getInvitationsHandler = async (req, res) => {
     try {
-        const invitations = await getInvitations.getAll();
+        const invitations = await getInvitations.getAllInvitations();
         res.status(200).json(invitations);
     } catch (error) {
         res.status(400).json({ error: error.message });

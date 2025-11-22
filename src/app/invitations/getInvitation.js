@@ -1,10 +1,10 @@
 class GetInvitations {
-    constructor({ invitationRepository }) {
+    constructor(invitationRepository) {
         this.invitationRepository = invitationRepository;
     }
 
-    async getAll() {
-        const invitations = await this.invitationRepository.getAll();
+    async getAllInvitations() {
+        const invitations = await this.invitationRepository.findAllInvitations();
         return invitations;
     }
 }

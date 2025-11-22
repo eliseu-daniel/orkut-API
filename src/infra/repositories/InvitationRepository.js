@@ -22,7 +22,7 @@ class InvitationRepository {
         }
     }
 
-    async getAll() {
+    async findAllInvitations() {
         const connection = await pool.getConnection();
         try {
             const sql = `SELECT * FROM CONVITES`;
