@@ -134,7 +134,7 @@ class MessageRepository {
                 { outFormat: oracledb.OUT_FORMAT_OBJECT }
             );
 
-            return result.rows[0];
+            return result.rows;
         } finally {
             if (connection) await connection.close();
         }
