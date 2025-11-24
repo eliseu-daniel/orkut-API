@@ -47,9 +47,9 @@ class MessageRepository {
                 U.USU_NOME AS nomeUsuario
             FROM MENSAGENS M
             INNER JOIN USUARIO U ON U.USU_ID = M.USU_ID
-            WHERE (USU_ID = :usuId AND CONTATO_ID = :contatoId)
-               OR (USU_ID = :contatoId AND CONTATO_ID = :usuId)
-            ORDER BY MENS_DATA ASC
+            WHERE (M.USU_ID = :usuId AND M.CONTATO_ID = :contatoId)
+               OR (M.USU_ID = :contatoId AND M.CONTATO_ID = :usuId)
+            ORDER BY M.MENS_DATA ASC
         `;
             const binds = { usuId, contatoId };
             const oracledb = require('oracledb');
