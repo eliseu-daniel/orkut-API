@@ -1,5 +1,5 @@
 const express = require('express');
-const { sendMessage, getMessage, getAllMessages } = require('../controllers/messageController');
+const { sendMessage, getMessage, getAllMessages, getMessageID } = require('../controllers/messageController');
 
 module.exports = (realtime) => {
     const router = express.Router();
@@ -8,6 +8,7 @@ module.exports = (realtime) => {
 
     router.get('/:usuId/:contatoId', getMessage);
     router.get('/', getAllMessages);
+    router.get('/:id', getMessageID);
 
     return router;
 };

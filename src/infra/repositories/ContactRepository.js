@@ -10,7 +10,7 @@ class ContactRepository {
       `;
             const binds = { usu1Id: contact.usuId, contatoId: contact.contatoId, tipo: contact.tipo };
             const result = await connection.execute(sql, binds, { autoCommit: true });
-            return { inserted: result.rows.map(row => this.#mapToModel(row)) };
+            return { inserted: result.rows };
         } finally {
             if (connection) await connection.close();
         }

@@ -1,11 +1,18 @@
 const SendMessage = require('../../../app/messages/sendMessage');
 const GetMessage = require('../../../app/messages/getMessage');
 const GetAllMessage = require('../../../app/messages/getAllMessages.js');
+const GetMessageId = require('../../../app/messages/getMessageID');
 const MessageRepository = require('../../../infra/repositories/MessageRepository');
+
+const CreateNotification = require('../../../app/notifications/createNotification');
+const NotificationRepository = require('../../../infra/repositories/NotificationRepository');
+const notifRepo = new NotificationRepository();
+const createNotificationUseCase = new CreateNotification(notifRepo);
 
 const sendMessageUseCase = new SendMessage(MessageRepository);
 const getMessageUseCase = new GetMessage(MessageRepository);
 const getAllMessagesUseCase = new GetAllMessage(MessageRepository);
+const getMessageByIdUseCase = new GetMessageId(MessageRepository);
 
 const sendMessage = (realtime) => async (req, res) => {
     try {
@@ -20,6 +27,15 @@ const sendMessage = (realtime) => async (req, res) => {
                 data: new Date().toISOString(),
             });
         }
+
+        await notifRepo.create({
+            id: Date.now(),
+            usuId: req.body.contatoId,
+            tipo: 'mensagemTe',
+            mensId: result.id,
+            data: new Date().toLocaleTimeString("pt-BR", { timeZone: "America/Sao_Paulo", hour12: false }),
+            status: 'N'
+        });
 
         return res.status(201).json(result);
     } catch (error) {
@@ -49,4 +65,15 @@ const getAllMessages = async (req, res) => {
     }
 };
 
-module.exports = { sendMessage, getMessage, getAllMessages };
+const getMessageID = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const message = await getMessageByIdUseCase.getMessageById(id);
+        return res.status(200).json(message);
+    } catch (error) {
+        console.error('Erro ao buscar mensagem por ID:', error);
+        return res.status(400).json({ error: error.message });
+    }
+}
+
+module.exports = { sendMessage, getMessage, getAllMessages, getMessageID };

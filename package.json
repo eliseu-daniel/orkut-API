@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node --env-file=.env src/index.js",
-    "dev": "node --watch --env-file=.env src/index.js",
+    "dev": "node --watch --env-file=.env src/index.js --no-cache",
     "test": "NODE_ENV=test jest tests/e2e --runInBand --forceExit",
     "test:watch": "NODE_ENV=test jest tests/e2e --watch"
   },

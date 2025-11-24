@@ -4,11 +4,11 @@ class CreateNotification {
     }
 
     async execute(data) {
-        const { usuId, tipo, mensId, status = 'N' } = data;
+        const { usuId, tipo, mensId, status } = data;
 
         const id = Date.now();
         await this.notificationRepository.create({ id, usuId, tipo, mensId, status });
-        return { id };
+        return { id, usuId, tipo, mensId, status };
     }
 }
 

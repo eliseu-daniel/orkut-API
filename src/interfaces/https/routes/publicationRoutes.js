@@ -4,6 +4,6 @@ const { createPublication, getPublications, getPublicationsByUser } = require('.
 
 router.post('/', createPublication);
 router.get('/', getPublications);
-router.get('/:usuId', getPublicationsByUser);
+router.get('/:id', getPublicationsByUser);
 
 module.exports = router;

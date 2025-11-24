@@ -1,7 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const { createNotification } = require('../controllers/notificationController');
+const { createNotification, getNotificationByUserController } = require('../controllers/notificationController');
 
-router.post('/', createNotification);
+module.exports = (realtime) => {
+    // router.post('/', createNotification);
+    router.get('/:id', getNotificationByUserController(realtime));
 
-module.exports = router;
+    return router;
+}

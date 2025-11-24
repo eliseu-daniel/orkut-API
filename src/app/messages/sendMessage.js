@@ -4,12 +4,12 @@ class SendMessage {
     }
 
     async execute(data) {
-        const { usuId, contatoId, descricao, status = 'E' } = data;
+        const { usuId, contatoId, descricao, status } = data;
 
         if (!descricao) throw new Error('Mensagem não pode ser vazia');
 
-        await this.messageRepository.create({ usuId, contatoId, descricao, status });
-        return { usuId, contatoId, descricao };
+        const result = await this.messageRepository.create({ usuId, contatoId, descricao, status });
+        return { result };
     }
 }
 

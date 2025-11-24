@@ -27,8 +27,7 @@ const getPublicationsHandler = async (req, res) => {
 
 const getPublicationsByUserHandler = async (req, res) => {
     try {
-        const usuId = req.params.usuId;
-        const publications = await getPublicationById.execute({ usuId });
+        const publications = await getPublicationById.execute(req.params.id);
         res.status(200).json(publications);
     } catch (error) {
         res.status(400).json({ error: error.message });
