@@ -9,7 +9,7 @@ class SendMessage {
         if (!descricao) throw new Error('Mensagem não pode ser vazia');
 
         const result = await this.messageRepository.create({ usuId, contatoId, descricao, status });
-        return { result };
+        return result;
     }
 }
 

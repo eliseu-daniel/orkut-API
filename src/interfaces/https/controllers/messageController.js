@@ -25,6 +25,7 @@ const sendMessage = (realtime) => async (req, res) => {
                 to: req.body.contatoId,
                 descricao: req.body.descricao,
                 data: new Date().toISOString(),
+                id: result.id
             });
         }
 
