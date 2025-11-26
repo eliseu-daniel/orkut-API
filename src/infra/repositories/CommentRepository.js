@@ -5,59 +5,64 @@ class CommentRepository {
         this.realtime = realtime;
     }
 
-    async create(message) {
+    async create(comment) {
         const connection = await pool.getConnection();
         try {
             const sql = `
-        INSERT INTO MENSAGENS (MENS_ID, USU_ID, CONTATO_ID, MENS_DESCRICAO, MENS_STATUS, MENS_DATA)
-        VALUES (:id, :usuId, :contatoId, :descricao, :status, SYSTIMESTAMP)`;
+        INSERT INTO COMENTARIOS_PUBLICACAO (PUB_ID, USU_ID, AP_TEXTO, CP_DATA)
+        VALUES (:pubId, :usuId, :apTexto, SYSTIMESTAMP)`;
             const binds = {
-                id: message.id,
-                usuId: message.usuId,
-                contatoId: message.contatoId,
-                descricao: message.descricao,
-                status: message.status
+                pubId: comment.pubId,
+                usuId: comment.usuId,
+                apTexto: comment.texto
             };
             const result = await connection.execute(sql, binds, { autoCommit: true });
 
-            realtime.sendToUser(message.contatoId, {
-                type: 'nova_mensagem',
-                data: {
-                    id: message.id,
-                    de: message.usuId,
-                    texto: message.descricao,
-                    data: new Date().toISOString()
-                }
-            });
-
-            return { inserted: result.rows.map(row => this.#rowToModel(row)) };
+            return { status: true, commentId: result.lastRowid };
         } finally {
             if (connection) await connection.close();
         }
     }
 
-    async getAll() {
+    async getCommentIdPub(id) {
         const connection = await pool.getConnection();
         try {
-            const sql = `SELECT MENS_ID AS id, USU_ID AS usuId, CONTATO_ID AS contatoId, 
-                MENS_DESCRICAO AS descricao, MENS_STATUS AS status, MENS_DATA AS data FROM MENSAGENS`;
-            const result = await connection.execute(sql, {}, { outFormat: pool.OBJECT });
-            return result.rows.map(row => this.#rowToModel(row));
+            const sql = `
+            SELECT 
+                CP.PUB_ID      AS "pubId",
+                CP.USU_ID      AS "usuId",
+                CP.AP_TEXTO    AS "texto",
+                CP.CP_DATA     AS "data",
+                U.USU_APELIDO     AS "nomeUsuComment"
+            FROM COMENTARIOS_PUBLICACAO CP
+            JOIN USUARIO U ON CP.USU_ID = U.USU_ID
+            WHERE CP.PUB_ID = :id
+            ORDER BY CP.CP_DATA DESC
+        `;
+
+            const binds = { id };
+
+            const oracledb = require('oracledb');
+            const result = await connection.execute(sql, binds, {
+                outFormat: oracledb.OUT_FORMAT_OBJECT
+            });
+
+            return result.rows.map(row => this.#mapRowToModel(row));
+
         } finally {
             if (connection) await connection.close();
         }
     }
 
-    #rowToModel(row) {
+    #mapRowToModel(row) {
         return {
-            id: row.ID,
-            usuId: row.USU_ID,
-            contatoId: row.CONTATO_ID,
-            descricao: row.DESCRICAO,
-            status: row.STATUS,
-            data: row.DATA
+            pubId: row.pubId,
+            usuId: row.usuId,
+            texto: row.texto,
+            data: row.data,
+            nomeUsuComment: row.nomeUsuComment
         };
     }
 }
 
-module.exports = CommentRepository;
+module.exports = new CommentRepository;

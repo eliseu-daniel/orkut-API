@@ -3,8 +3,8 @@ class GetComments {
         this.commentRepository = commentRepository;
     }
 
-    async getAllComments() {
-        return await this.commentRepository.getAll();
+    async execute(id) {
+        return await this.commentRepository.getCommentIdPub(id);
     }
 }
 

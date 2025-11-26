@@ -8,9 +8,8 @@ class CreateComment {
 
         if (!texto) throw new Error('Comentário não pode ser vazio');
 
-        const cpId = Date.now();
-        await this.commentRepository.create({ pubId, usuId, texto, cpId });
-        return { cpId, texto };
+        const result = await this.commentRepository.create({ pubId, usuId, texto });
+        return { result };
     }
 }
 
