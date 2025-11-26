@@ -5,8 +5,8 @@ class InvitationRepository {
         const connection = await pool.getConnection();
         try {
             const sql = `
-        INSERT INTO CONVITES (CON_ID, USU_ID, CON_TEXTO, CON_TIPO, DEST_ID, CON_DATA)
-        VALUES (:id, :usuId, :texto, :tipo, :destId, SYSTIMESTAMP)
+        INSERT INTO CONVITES (CON_ID, USU_ID, CON_TEXTO, CON_TIPO, CON_DATA, DEST_ID)
+        VALUES (:id, :usuId, :texto, :tipo, SYSTIMESTAMP, :destId)
       `;
             const binds = {
                 id: invitation.id,
@@ -33,6 +33,29 @@ class InvitationRepository {
         }
     }
 
+    async findById(id) {
+        const connection = await pool.getConnection();
+        try {
+            const sql = `SELECT 
+                    C.CON_ID,
+                    C.USU_ID,
+                    C.CON_TEXTO,
+                    C.CON_TIPO,
+                    C.DEST_ID,
+                    C.CON_DATA,
+                    U.USU_NOME AS REMETENTE_NOME
+                FROM CONVITES C
+                INNER JOIN USUARIO U ON C.USU_ID = U.USU_ID
+                WHERE C.DEST_ID = :id`;
+            const binds = { id };
+            const result = await connection.execute(sql, binds);
+
+            return result.rows.map(row => this.#mapRow(row));
+        } finally {
+            if (connection) await connection.close();
+        }
+    }
+
     #mapRow(row) {
         return {
             id: row[0],
@@ -40,7 +63,8 @@ class InvitationRepository {
             texto: row[2],
             tipo: row[3],
             destId: row[4],
-            data: row[5]
+            data: row[5],
+            remetenteNome: row[6]
         };
     }
 }

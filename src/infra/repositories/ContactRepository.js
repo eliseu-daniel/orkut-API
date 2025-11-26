@@ -16,11 +16,29 @@ class ContactRepository {
         }
     }
 
+    async findById(id) {
+        const connection = await pool.getConnection();
+        try {
+            const sql = `
+            SELECT C.USU1_ID, C.CONTATO_ID, C.CON_TIPO, U.USU_NOME
+            FROM CONTATOS C
+            JOIN USUARIO U ON C.CONTATO_ID = U.USU_ID
+            WHERE C.USU1_ID = :id 
+      `;
+            const binds = { id };
+            const result = await connection.execute(sql, binds);
+            return result.rows.map(row => this.#mapToModel(row));
+        } finally {
+            if (connection) await connection.close();
+        }
+    }
+
     #mapToModel(row) {
         return {
-            usu1Id: row.USU1_ID,
-            contatoId: row.CONTATO_ID,
-            tipo: row.CON_TIPO,
+            usu1Id: row[0],
+            contatoId: row[1],
+            tipo: row[2],
+            nomeContato: row[3],
         };
     }
 }
