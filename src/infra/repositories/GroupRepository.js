@@ -10,7 +10,7 @@ class GroupRepository {
       `;
             const binds = { id: group.id, nome: group.nome, descricao: group.descricao, status: group.status };
             const result = await connection.execute(sql, binds, { autoCommit: true });
-            return { inserted: result.rows.map(row => this.#mapRow(row)) };
+            return { inserted: result.rowsAffected };
         } finally {
             if (connection) await connection.close();
         }
@@ -22,6 +22,17 @@ class GroupRepository {
             const sql = `SELECT * FROM GRUPOS WHERE GRU_ID = :id`;
             const result = await connection.execute(sql, [id]);
             return result.rows.length > 0 ? this.#mapRow(result.rows[0]) : null;
+        } finally {
+            if (connection) await connection.close();
+        }
+    }
+
+    async getAll() {
+        const connection = await pool.getConnection();
+        try {
+            const sql = `SELECT * FROM GRUPOS`;
+            const result = await connection.execute(sql);
+            return result.rows.map(row => this.#mapRow(row));
         } finally {
             if (connection) await connection.close();
         }

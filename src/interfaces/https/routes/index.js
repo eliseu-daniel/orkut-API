@@ -12,17 +12,17 @@ module.exports = (realtime) => {
     router.use('/actions', auth, require('./actionRoutes'));
     router.use('/actions/messages', auth, require('./actionMessageRoutes')(realtime));
     router.use('/actions/publications', auth, require('./actionPublicationRoutes'));
-    router.use('/comments', auth, require('./commentRoutes'));// arrumar o get
+    router.use('/comments', auth, require('./commentRoutes'));
     router.use('/contacts', auth, require('./contactRoutes'));
-    router.use('/invitations', auth, require('./invitationRoutes'));// arrumar o get
+    router.use('/invitations', auth, require('./invitationRoutes'));
     router.use('/groups', auth, require('./groupRoutes'));
-    router.use('/users/history', auth, require('./userHistoryRoutes')); // arrumar o get
+    router.use('/users/history', auth, require('./userHistoryRoutes'));
     router.use('/messages', auth, require('./messageRoutes')(realtime));
 
     router.use('/notifications', auth, require('./notificationRoutes')(realtime));
 
     router.use('/publications', auth, require('./publicationRoutes'));
-    router.use('/groups/members', auth, require('./userGroupRoutes')); // arrumar o post
+    router.use('/groups/members', auth, require('./userGroupRoutes'));
 
     return router;
 };

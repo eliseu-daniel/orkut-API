@@ -8,9 +8,8 @@ class CreateGroup {
 
         if (!nome) throw new Error('Nome do grupo é obrigatório');
 
-        const id = Date.now();
         await this.groupRepository.create({ id, nome, descricao, status });
-        return { id, nome };
+        return { id, nome, descricao, status };
     }
 }
 
